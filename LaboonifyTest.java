@@ -2,6 +2,7 @@ import static org.junit.Assert.*;
 
 import org.junit.Test;
 
+import java.util.Arrays;
 import java.util.Random;
 
 
@@ -16,12 +17,19 @@ public class LaboonifyTest {
 			for (int j=0;j<a.length-1;j++){
 				a[j]=rng.nextInt(100)+1;
 			}
+			a=sortArray(a);
 		return a;
 	}
 	/*
-	 * We will test to see if the size of the input array is always one less than the output array,
-	 * as the array returned by laboonify should be the same size as the input array, with one extra index
-	 * to hold the summation of the previous indexes. If it is not exactly one less, than the test is failed 
+	 * this method takes an array and returns that array sorted
+	 */
+	public int[] sortArray(int[] a){
+		Arrays.sort(a);
+		return a;
+	}
+	/*
+	 *  This test tests to see if the randomized laboonified array is sorted. I do this by generating the array
+	 *  and using a for loop to assure that each index is less than or equal to the next. 
 	 */
 	@Test
 	public void firstInvariant() {
@@ -31,11 +39,13 @@ public class LaboonifyTest {
 			int[] a= genArray();
 			/*laboonifies the input array and stores the data in the outputArray[] array*/
 			int outputArray[] = Laboonify.laboonify(a);
-			/*compares the length of both arrays to one another.*/
-			int x = outputArray.length-a.length;
-			/*if the difference between the two array is not 1, then the test will fail*/
-			if(x!=1){
-				fail();
+			/* checks if each index of the output array is smaller than the next, assuring that it is 
+			 * a sorted array
+			 */
+			for (int j =0 ; j<outputArray.length-1;j++){
+				if(outputArray[j]>outputArray[j+1]){
+					fail();
+				}
 			}
 		}
 		/*if 100 arrays have been tested, the test is passed*/
